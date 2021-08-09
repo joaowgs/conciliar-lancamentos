@@ -1,0 +1,76 @@
+-------------------------------------------------------------------------------
+Test set: br.com.veloe.mecanicafinanceira.concilialancamento.core.service.impl.MFCyberClientServiceImplTest
+-------------------------------------------------------------------------------
+Tests run: 2, Failures: 1, Errors: 1, Skipped: 0, Time elapsed: 0.881 s <<< FAILURE! - in br.com.veloe.mecanicafinanceira.concilialancamento.core.service.impl.MFCyberClientServiceImplTest
+quandoBuscarComSucesso_deveRetornarLancamentoLogMov  Time elapsed: 0.718 s  <<< ERROR!
+org.mockito.exceptions.misusing.PotentialStubbingProblem: 
+
+Strict stubbing argument mismatch. Please check:
+ - this invocation of 'getForEntity' method:
+    restTemplate.getForEntity(
+    "null/api/v1/lancamento-aprovisionado?idCyber={idCyber}&idConta={idConta}&idTransacao={idTransacao}",
+    class br.com.veloe.mecanicafinanceira.concilialancamento.core.domain.Lancamento,
+    "2",
+    "123456",
+    "5bf6b93a-7648-4545-9689-1ba32fc04bfd"
+);
+    -> at br.com.veloe.mecanicafinanceira.concilialancamento.core.service.impl.MFCyberClientServiceImpl.buscarLancamentoLogMov(MFCyberClientServiceImpl.java:36)
+ - has following stubbing(s) with different arguments:
+    1. restTemplate.getForEntity(
+    "null/api/v1/logmov?idCyber={idCyber}&idConta={idConta}&idTransacao={idTransacao}",
+    class br.com.veloe.mecanicafinanceira.concilialancamento.core.domain.Lancamento,
+    "2",
+    "123456",
+    "5bf6b93a-7648-4545-9689-1ba32fc04bfd"
+);
+      -> at br.com.veloe.mecanicafinanceira.concilialancamento.core.service.impl.MFCyberClientServiceImplTest.quandoBuscarComSucesso_deveRetornarLancamentoLogMov(MFCyberClientServiceImplTest.java:58)
+Typically, stubbing argument mismatch indicates user mistake when writing tests.
+Mockito fails early so that you can debug potential problem easily.
+However, there are legit scenarios when this exception generates false negative signal:
+  - stubbing the same method multiple times using 'given().will()' or 'when().then()' API
+    Please use 'will().given()' or 'doReturn().when()' API for stubbing.
+  - stubbed method is intentionally invoked with different arguments by code under test
+    Please use default or 'silent' JUnit Rule (equivalent of Strictness.LENIENT).
+For more information see javadoc for PotentialStubbingProblem class.
+	at br.com.veloe.mecanicafinanceira.concilialancamento.core.service.impl.MFCyberClientServiceImplTest.quandoBuscarComSucesso_deveRetornarLancamentoLogMov(MFCyberClientServiceImplTest.java:64)
+
+quandoNaoEncontrar_deveLancarLancamentoNaoEncontradoException  Time elapsed: 0.162 s  <<< FAILURE!
+java.lang.AssertionError: 
+
+Expecting actual throwable to be an instance of:
+  br.com.veloe.mecanicafinanceira.concilialancamento.core.exception.LancamentoNaoEncontradoException
+but was:
+  org.mockito.exceptions.misusing.PotentialStubbingProblem: 
+Strict stubbing argument mismatch. Please check:
+ - this invocation of 'getForEntity' method:
+    restTemplate.getForEntity(
+    "null/api/v1/lancamento-aprovisionado?idCyber={idCyber}&idConta={idConta}&idTransacao={idTransacao}",
+    class br.com.veloe.mecanicafinanceira.concilialancamento.core.domain.Lancamento,
+    "2",
+    "123456",
+    "5bf6b93a-7648-4545-9689-1ba32fc04bfd"
+);
+    -> at br.com.veloe.mecanicafinanceira.concilialancamento.core.service.impl.MFCyberClientServiceImpl.buscarLancamentoLogMov(MFCyberClientServiceImpl.java:36)
+ - has following stubbing(s) with different arguments:
+    1. restTemplate.getForEntity(
+    "null/api/v1/logmov?idCyber={idCyber}&idConta={idConta}&idTransacao={idTransacao}",
+    class br.com.veloe.mecanicafinanceira.concilialancamento.core.domain.Lancamento,
+    "2",
+    "123456",
+    "5bf6b93a-7648-4545-9689-1ba32fc04bfd"
+);
+      -> at br.com.veloe.mecanicafinanceira.concilialancamento.core.service.impl.MFCyberClientServiceImplTest.quandoNaoEncontrar_deveLancarLancamentoNaoEncontradoException(MFCyberClientServiceImplTest.java:79)
+Typically, stubbing argument mismatch indicates user mistake when writing tests.
+Mockito fails early so that you can debug potential problem easily.
+However, there are legit scenarios when this exception generates false negative signal:
+  - stubbing the same method multiple times using 'given().will()' or 'when().then()' API
+    Please use 'will().given()' or 'doReturn().when()' API for stubbing.
+  - stubbed method is intentionally invoked with different arguments by code under test
+    Please use default or 'silent' JUnit Rule (equivalent of Strictness.LENIENT).
+For more information see javadoc for PotentialStubbingProblem class.
+	at br.com.veloe.mecanicafinanceira.concilialancamento.core.service.impl.MFCyberClientServiceImpl.buscarLancamentoLogMov(MFCyberClientServiceImpl.java:36)
+	at br.com.veloe.mecanicafinanceira.concilialancamento.core.service.impl.MFCyberClientServiceImplTest.lambda$quandoNaoEncontrar_deveLancarLancamentoNaoEncontradoException$0(MFCyberClientServiceImplTest.java:83)
+	at org.assertj.core.api.ThrowableAssert.catchThrowable(ThrowableAssert.java:62)
+	...(69 remaining lines not displayed - this can be changed with Assertions.setMaxStackTraceElementsDisplayed)
+	at br.com.veloe.mecanicafinanceira.concilialancamento.core.service.impl.MFCyberClientServiceImplTest.quandoNaoEncontrar_deveLancarLancamentoNaoEncontradoException(MFCyberClientServiceImplTest.java:83)
+

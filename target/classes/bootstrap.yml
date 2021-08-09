@@ -1,0 +1,9 @@
+spring:
+  application:
+    name: concilia-lancamento
+  cloud:
+    config:
+      enabled: true
+      uri: >-
+        http://server.config.mgmt.veloe.com.br
+      fail-fast: true

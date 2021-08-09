@@ -1,0 +1,4 @@
+-------------------------------------------------------------------------------
+Test set: br.com.veloe.mecanicafinanceira.concilialancamento.core.service.impl.ConciliaLancamentoServiceImplTest
+-------------------------------------------------------------------------------
+Tests run: 6, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 4.496 s - in br.com.veloe.mecanicafinanceira.concilialancamento.core.service.impl.ConciliaLancamentoServiceImplTest

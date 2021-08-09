@@ -1,0 +1,136 @@
+{
+  "type": "record",
+  "name": "LancamentoAprovisionado",
+  "namespace": "br.com.veloe.mecanicafinanceira",
+  "doc": "Schema do tópico de Transação MF_ADQ_TP_LANCAMENTO_APROVISIONADO.",
+  "fields": [
+    {
+      "name": "DataEnvio",
+      "type": [
+        "string",
+        "null"
+      ],
+      "doc": "Data do envio."
+    },
+    {
+      "name": "IdCoreBank",
+      "type": [
+        "long",
+        "null"
+      ],
+      "doc": "Id no core bank."
+    },
+    {
+      "name": "IdConta",
+      "type": [
+        "string",
+        "null"
+      ],
+      "doc": "Id da conta."
+    },
+    {
+      "name": "IdIdentificador",
+      "type": [
+        "string",
+        "null"
+      ],
+      "doc": "Identificador do executor Transação."
+    },
+    {
+      "name": "IdAutorizador",
+      "type": [
+        "string",
+        "null"
+      ],
+      "doc": "Id do autorizador."
+    },
+    {
+      "name": "Estorno",
+      "type": [
+        "int",
+        "null"
+      ],
+      "doc": "Flag que representa se a Transação é um estorno."
+    },
+    {
+      "name": "Reversao",
+      "type": [
+        "int",
+        "null"
+      ],
+      "doc": "Flag que representa se a Transação é uma reversão."
+    },
+    {
+      "name": "Status",
+      "type": [
+        "string",
+        "null"
+      ],
+      "doc": "Enum que representa o status da Transação. Ex.: COMPENSADO."
+    },
+    {
+      "name": "Valor",
+      "type": [
+        "double",
+        "null"
+      ],
+      "doc": "Valor da Transação."
+    },
+    {
+      "name": "FatorDebCred",
+      "type": [
+        "int",
+        "null"
+      ],
+      "doc": "Identificador de lançamento de débito ou crédito."
+    },
+    {
+      "name": "TipoConta",
+      "type": [
+        "string",
+        "null"
+      ],
+      "doc": "Enum que representa o tipo da Conta. Ex.: EC, PORTADOR"
+    },
+    {
+      "name": "DataRepasse",
+      "type": [
+        "string",
+        "null"
+      ],
+      "doc": "Data do repasse."
+    },
+    {
+      "name": "IdRazaoTransacao",
+      "type": [
+        "long",
+        "null"
+      ],
+      "doc": "Identificador da razão de transação."
+    },
+    {
+      "name": "IdGrupoTransacao",
+      "type": [
+        "long",
+        "null"
+      ],
+      "doc": "Identificador do grupo de transação."
+    },
+    {
+      "name": "IdTransacao",
+      "type": [
+        "string",
+        "null"
+      ],
+      "doc": "Id da transação."
+    },
+    {
+      "name": "Atividade",
+      "type": [
+        "string",
+        "null"
+      ],
+      "doc": "Enum que representa a atividade da Transação. Ex.: PASSAGEM_DENTRO_SLA."
+    }
+  ]
+}

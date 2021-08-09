@@ -1,0 +1,5 @@
+br/com/veloe/mecanicafinanceira/concilialancamento/core/service/impl/ConciliaLancamentoServiceImplTest.class
+br/com/veloe/mecanicafinanceira/concilialancamento/core/service/impl/MFCyberClientServiceImplTest.class
+br/com/veloe/mecanicafinanceira/concilialancamento/creator/LancamentoCreator.class
+br/com/veloe/mecanicafinanceira/concilialancamento/core/service/impl/MFClientServiceImplTest.class
+br/com/veloe/mecanicafinanceira/concilialancamento/creator/MfLogmovCreator.class

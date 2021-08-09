@@ -1,0 +1,127 @@
+error:
+  include-stacktrace: on_param
+
+debug: false
+
+server:
+  port: 8022
+spring:
+  application:
+    name: concilia-lancamento
+  kafka:
+    bootstrap-servers: localhost:9092
+    properties:
+      basic:
+        auth:
+          credentials:
+            source: USER_INFO
+      default:
+        deserialization:
+          exception:
+            handler: org.apache.kafka.streams.errors.LogAndContinueExceptionHandler
+  cloud:
+    stream:
+      function:
+        definition: consumidorMfLogmov;consumidorLancamentoAprovisionado
+      bindings:
+        consumidorMfLogmov-in-0:
+          group: bindings_group
+          destination: CON_CYB_MF_LOGMOV
+        consumidorLancamentoAprovisionado-in-0:
+          group: bindings_group
+          destination: MF_ADQ_TP_LANCAMENTO_APROVISIONADO
+      kafka:
+        bindings:
+          consumidorLancamentoAprovisionado-in-0:
+            consumer:
+              configuration:
+                schema:
+                  registry:
+                    url: http://localhost:8081
+                value:
+                  serializer: io.confluent.kafka.serializers.KafkaAvroSerializer
+        streams:
+          binder:
+            brokers: localhost:9092
+            configuration:
+              default:
+                value:
+                  serde: io.confluent.kafka.streams.serdes.avro.SpecificAvroSerde
+              schema:
+                registry:
+                  url: http://localhost:8081
+              specific:
+                avro:
+                  use:
+                    reader: true
+
+spring.cloud.stream.kafka.streams.binder.functions.consumidorMfLogmov:
+  applicationId: concilia-lancamento-logmov
+
+spring.cloud.stream.kafka.streams.binder.functions.consumidorLancamentoAprovisionado:
+  applicationId: concilia-lancamento-aprovisionado
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include: info, health, metrics
+
+info:
+  app: Concilia Lancamento
+  repository: https://fastalelo.visualstudio.com/FAST/_git/concilia-lancamento
+
+logging:
+  pattern:
+    console: "%d %-5level %logger : %msg%n"
+  level:
+    org.springframework.web: info
+    org.springframework: info
+
+jaas:
+  conf:
+    password: admin-secret
+    user: admin
+
+mf-api:
+  user: mecanica
+  password: 123
+  url-base: http://localhost:8021
+
+---
+
+spring.profiles: dev
+
+spring:
+  kafka:
+    bootstrap-servers: pkc-9kg10.us-east-1.aws.confluent.cloud:9092
+
+spring.kafka.properties:
+  basic.auth.credentials.source: USER_INFO
+  schema.registry.basic.auth.user.info: GR5M2SPG5A4TNATL:Imol/dVqbHi9Npt8b/2yOTilo5LdJ7TfeDlh1ENk6awubkTBqDJJeunv/+2/xOZo
+
+spring.cloud.stream.kafka.bindings.consumidorLancamentoAprovisionado-in-0.consumer.configuration:
+  schema:
+    version: 19
+    registry.url: https://psrc-4r3xk.us-east-2.aws.confluent.cloud
+
+spring.cloud.stream.kafka.streams.binder.configuration:
+  schema:
+    version: 19
+    registry.url: https://psrc-4r3xk.us-east-2.aws.confluent.cloud
+
+spring.cloud.stream.kafka.streams.binder:
+  brokers: pkc-9kg10.us-east-1.aws.confluent.cloud:9092
+  configuration:
+    security.protocol: SASL_SSL
+    sasl.mechanism: PLAIN
+    max.poll.records: 500
+
+
+mf-api:
+  url-base: http://kafka-streams.app.dev.veloe.com.br
+
+jaas:
+  conf:
+    password: y5H1ktAb5ViqRo8qNydmZFt6/kQPaipr/jbvh+MAxGPOKluKnzqNFjiX4olRMN+p
+    user: LAEKK42AAMIU5BWK

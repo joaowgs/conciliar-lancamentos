@@ -1,0 +1,140 @@
+trigger:
+  branches:
+    include:
+    - development
+    - master
+    - release/*
+    exclude:
+    - feature/*
+    - hotfix/*
+    - chore/*
+stages:
+- stage: build
+  jobs:
+  - job: build
+    displayName: Build
+    workspace:
+      clean: outputs
+    pool:
+      name: Dev
+      demands:
+      - maven
+      - sh
+      - aws
+      - pip
+      - python
+
+    steps:
+    - task: ms-devlabs.utilitytasks.task-Shellpp.Shell++@0
+      displayName: download jdk 11
+      inputs:
+        type: InlineScript
+        script: |
+          rm -rf /tmp/java/*
+          apt install wget -y
+          wget https://corretto.aws/downloads/latest/amazon-corretto-11-x64-linux-jdk.tar.gz -P /tmp/java/
+
+    - task: JavaToolInstaller@0
+      displayName: use jdk 11
+      inputs:
+        versionSpec: 11
+        jdkArchitectureOption: x64
+        jdkSourceOption: LocalDirectory
+        jdkFile: '/tmp/java/amazon-corretto-11-x64-linux-jdk.tar.gz'
+        jdkDestinationDirectory: /tmp/java
+        cleanDestinationDirectory: false
+
+    - task: Maven@3
+      displayName: 'mvn deploy & sonar'
+      inputs:
+        goals: 'clean deploy jacoco:report'
+        mavenAuthenticateFeed: false
+        mavenPomFile: 'pom.xml'
+        options: '-U -Dsonar.scm.disabled=true'
+        sonarQubeFailWhenQualityGateFails: true
+        sonarQubeRunAnalysis: true
+        sonarQubeServiceEndpoint: 'Sonar CE'
+
+    - task: EcrDocker@0
+      displayName: 'Build and push docker image'
+      inputs:
+        imageName: 'veloe/kafka-streams/concilia-lancamento:$(Build.BuildNumber)'
+        targetType: filePath
+        dockerfile: Dockerfile
+
+- stage: dev
+  dependsOn: build
+  condition: and(succeeded('build'),startsWith(variables['Build.SourceBranch'], 'refs/heads/development'))
+  jobs:
+  - deployment: dev
+    pool:
+      name: Dev
+      demands:
+      - maven
+      - sh
+      - aws
+      - pip
+      - python
+    displayName: Deploy Dev
+    environment: dev
+    variables:
+      - name: ENVIRONMENT
+        value: dev
+    strategy:
+      runOnce:
+        deploy:
+          steps:
+            - template: deployment-job.yaml
+              parameters:
+                environment: dev
+- stage: hml
+  dependsOn: build
+  condition: succeeded('build')
+  jobs:
+  - deployment: hml
+    pool:
+      name: Hml
+      demands:
+      - maven
+      - sh
+      - aws
+      - pip
+      - python
+    displayName: Deploy Hml
+    environment: hml
+    variables:
+      - name: ENVIRONMENT
+        value: hml
+    strategy:
+      runOnce:
+        deploy:
+          steps:
+            - template: deployment-job.yaml
+              parameters:
+                environment: hml
+
+- stage: prd
+  dependsOn: build
+  condition: and(succeeded('build'),startsWith(variables['Build.SourceBranch'], 'refs/heads/master'))
+  jobs:
+  - deployment: prd
+    pool:
+      name: Prod
+      demands:
+      - maven
+      - sh
+      - aws
+      - pip
+      - python
+    displayName: Deploy Prd
+    environment: prd
+    variables:
+      - name: ENVIRONMENT
+        value: prd
+    strategy:
+      runOnce:
+        deploy:
+          steps:
+            - template: deployment-job.yaml
+              parameters:
+                environment: prd

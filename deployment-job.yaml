@@ -1,0 +1,8 @@
+parameters:
+  enviroment:
+steps:
+- task: Fluxctl@1
+  displayName: 'Deploy new version'
+  inputs:
+    enviroment: ${{ parameters.environment }}
+    arguments: --k8s-fwd-ns=flux release --namespace kafka-streams --update-image=233410627014.dkr.ecr.us-east-1.amazonaws.com/veloe/kafka-streams/concilia-lancamento:$(Build.BuildNumber) --watch --workload=kafka-streams:deployment/concilia-lancamento-deployment
